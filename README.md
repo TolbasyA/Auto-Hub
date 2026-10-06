@@ -74,7 +74,7 @@ responsive media queries, and README documentation.
 
 **Contact page:**
 
-![Contact page](assets/screenshots/contact.png)
+![Contact page](assets/screenshots/Contact.png)
 
 ## Published website
 

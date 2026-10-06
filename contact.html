@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete the AutoHub demonstration enquiry form.">
+    <title>Contact | AutoHub</title>
+   <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="AutoHub home">
+                <img src="assets/images/logo.png" alt="AutoHub logo" width="32" height="32">
+                <span>AutoHub</span>
+            </a>
+
+            <nav aria-label="Main navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="showrooms.html">Showrooms</a></li>
+                    <li><a href="rent.html">Rent</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="wiki.html">Car Wiki</a></li>
+                    <li>
+                        <a href="contact.html" class="active" aria-current="page">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="container py-4" tabindex="-1">
+        <section class="mb-4" aria-labelledby="contact-title">
+            <h1 id="contact-title">Contact AutoHub</h1>
+            <p>Prepare a question about a showroom visit, rental, or car purchase.</p>
+        </section>
+
+        <div class="row g-4">
+            <section class="col-12 col-lg-8" aria-labelledby="form-title">
+                <div class="simple-box">
+                    <h2 id="form-title">Enquiry form</h2>
+                    <p id="form-note" class="small">
+                        Demo form for practising HTML validation.
+                        Messages are not delivered. Please use example details.
+                    </p>
+
+                    <form
+                        id="contact-form"
+                        action="contact.html#contact-form"
+                        method="get"
+                        aria-describedby="form-note">
+
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label for="full-name" class="form-label">
+                                    Full name *
+                                </label>
+                                <input
+                                    type="text"
+                                    id="full-name"
+                                    name="fullName"
+                                    class="form-control"
+                                    autocomplete="name"
+                                    minlength="2"
+                                    maxlength="80"
+                                    required>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="email" class="form-label">Email *</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    class="form-control"
+                                    autocomplete="email"
+                                    maxlength="120"
+                                    required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="request" class="form-label">
+                                    Request type *
+                                </label>
+                                <select
+                                    id="request"
+                                    name="request"
+                                    class="form-select"
+                                    required>
+                                    <option value="">Choose a request</option>
+                                    <option value="visit">Showroom visit</option>
+                                    <option value="rental">Car rental</option>
+                                    <option value="purchase">Car purchase</option>
+                                    <option value="general">General question</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    class="form-control"
+                                    rows="5"
+                                    minlength="10"
+                                    maxlength="1000"
+                                    placeholder="Include the car name and your question (at least 10 characters)."
+                                    required></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input
+                                        type="checkbox"
+                                        id="demo-consent"
+                                        name="demoConsent"
+                                        class="form-check-input"
+                                        required>
+                                    <label for="demo-consent" class="form-check-label">
+                                        I understand this form is a demonstration. *
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    Submit demo enquiry
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <aside class="col-12 col-lg-4" aria-labelledby="details-title">
+                <div class="simple-box">
+                    <h2 id="details-title" class="h4">Contact details</h2>
+                    <p><strong>Location:</strong> Astana, Kazakhstan</p>
+                    <p>
+                        <strong>Demo email:</strong><br>
+                        <a href="mailto:hello@autohub.example">
+                            hello@autohub.example
+                        </a>
+                    </p>
+                    <p class="small">
+                        This example address is not an active business inbox.
+                    </p>
+
+                    <h3 class="h5">Useful pages</h3>
+                    <ul class="mb-0">
+                        <li><a href="showrooms.html">Showroom information</a></li>
+                        <li><a href="rent.html">Rental prices</a></li>
+                        <li><a href="wiki.html">Car terms</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="site-footer mt-4">
+        <div class="container footer-inner py-3 text-start">
+            <div>
+                <p class="mb-1">
+                    <strong>AutoHub</strong> · Astana, Kazakhstan
+                </p>
+                <a href="mailto:hello@autohub.example">hello@autohub.example</a>
+                <p class="small mt-2 mb-0">
+                    Student project · sample cars and prices
+                </p>
+            </div>
+
+            <div>
+                <nav class="social-links" aria-label="Social links">
+                    <a href="https://www.instagram.com/"
+                       target="_blank"
+                       rel="noopener noreferrer">Instagram</a>
+                    <a href="https://www.youtube.com/"
+                       target="_blank"
+                       rel="noopener noreferrer">YouTube</a>
+                </nav>
+                <p class="small mt-2 mb-0">
+                    &copy; 2026 AutoHub. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -78,4 +78,4 @@ responsive media queries, and README documentation.
 
 ## Published website
 
-PASTE THE ACTUAL PUBLISHED WEBSITE LINK HERE
+https://tolbasya.github.io/Auto-Hub/

@@ -28,3 +28,7 @@ basic information about cars.
 - `index.html`, `showrooms.html`, `rent.html`, `sale.html`, `wiki.html`, `contact.html`, `signin.html`
 - `css/style.css` — styles, including the dark theme
 - `js/script.js` — theme, sign-in, FAQ (jQuery), and API code
+
+
+- **Repository:** https://github.com/achaka119/Auto-Hub
+- **Website:** https://achaka119.github.io/Auto-Hub/

@@ -20,6 +20,7 @@
         }
     }
 
+    // Theme
     function initTheme() {
         applyTheme(read(THEME_KEY) === 'dark' ? 'dark' : 'light');
         var btn = document.getElementById('theme-toggle');
@@ -97,6 +98,7 @@
         return !message;
     }
 
+    // Registration
     function initSignIn() {
         var form = document.getElementById('signin-form');
         if (!form) { return; }
@@ -122,12 +124,29 @@
         var confirm = document.getElementById('si-confirm');
         function validPassword() {
             var value = password.value;
-            var score = !value ? 0 : value.length < 8 ? 1 : /[a-z]/.test(value) && /[A-Z]/.test(value) && /[0-9]/.test(value) ? 3 : 2;
+            var score = 0;
+            if (value.length > 0) {
+                score = 1;
+            }
+            if (value.length >= 8) {
+                score = 2;
+                var hasLowercase = /[a-z]/.test(value);
+                var hasUppercase = /[A-Z]/.test(value);
+                var hasNumber = /[0-9]/.test(value);
+                if (hasLowercase && hasUppercase && hasNumber) {
+                    score = 3;
+                }
+            }
             document.getElementById('password-meter').value = score;
             document.getElementById('password-strength').textContent = ['Enter a password', 'Weak', 'Medium', 'Strong'][score];
             return setFieldError(password, score < 3 ? 'Use 8+ characters with uppercase, lowercase and a number.' : '');
         }
-        function validConfirm() { return setFieldError(confirm, !confirm.value || confirm.value !== password.value ? 'Passwords must match.' : ''); }
+        function validConfirm() {
+            if (!confirm.value || confirm.value !== password.value) {
+                return setFieldError(confirm, 'Passwords must match.');
+            }
+            return setFieldError(confirm, '');
+        }
         password.addEventListener('input', function () { validPassword(); if (confirm.value) validConfirm(); });
         confirm.addEventListener('input', validConfirm);
         form.addEventListener('submit', function (e) {
@@ -151,6 +170,7 @@
         if (outBtn) { outBtn.addEventListener('click', signOut); }
     }
 
+    // FAQ
     function initFaq() {
         if (!window.jQuery) { return; }
         var $ = window.jQuery;
@@ -163,6 +183,7 @@
         });
     }
 
+    // Car API
     function initCarApi() {
         var root = document.getElementById('car-api');
         if (!root) { return; }
@@ -196,9 +217,14 @@
 
         function renderBrands() {
             var q = searchInput.value.trim().toUpperCase();
-            var list = q
-                ? makes.filter(function (m) { return m.indexOf(q) !== -1; })
-                : makes.filter(function (m) { return POPULAR.indexOf(m) !== -1; });
+            var list = [];
+            for (var make of makes) {
+                if (q && make.includes(q)) {
+                    list.push(make);
+                } else if (!q && POPULAR.includes(make)) {
+                    list.push(make);
+                }
+            }
             brandList.textContent = '';
             if (!list.length) {
                 brandList.textContent = 'No brands match "' + searchInput.value.trim() + '". Try another name.';
@@ -247,9 +273,11 @@
                 setStatus('Enter a model year between 1980 and ' + maxYear + ', or leave it empty.', 'error');
                 return;
             }
-            var url = year
-                ? BASE + 'GetModelsForMakeYear/make/' + encodeURIComponent(selectedMake) + '/modelyear/' + year + '?format=json'
-                : BASE + 'GetModelsForMake/' + encodeURIComponent(selectedMake) + '?format=json';
+            var makeName = encodeURIComponent(selectedMake);
+            var url = BASE + 'GetModelsForMake/' + makeName + '?format=json';
+            if (year) {
+                url = BASE + 'GetModelsForMakeYear/make/' + makeName + '/modelyear/' + year + '?format=json';
+            }
             modelTitle.textContent = 'Models: ' + selectedMake + (year ? ' (' + year + ')' : '');
             modelList.textContent = '';
             setStatus('Loading models...', 'loading');
@@ -280,6 +308,7 @@
         loadMakes();
     }
 
+    // Search and filters
     function initSearch() {
         var input = document.getElementById('car-search');
         if (!input) return;
@@ -287,7 +316,12 @@
         function filter() {
             var count = 0;
             document.querySelectorAll('#car-listings > div').forEach(function (item) {
-                var matches = item.textContent.toLowerCase().includes(input.value.trim().toLowerCase()) && (category === 'All' || item.querySelector('.car-label').textContent === category);
+                var searchText = input.value.trim().toLowerCase();
+                var carText = item.textContent.toLowerCase();
+                var carCategory = item.querySelector('.car-label').textContent;
+                var matchesSearch = carText.includes(searchText);
+                var matchesCategory = category === 'All' || carCategory === category;
+                var matches = matchesSearch && matchesCategory;
                 item.hidden = !matches;
                 if (matches) count++;
             });
@@ -304,6 +338,7 @@
         filter();
     }
 
+    // Inventory table
     function initInventory() {
         var form = document.getElementById('inventory-form');
         if (!form) return;
@@ -355,13 +390,22 @@
             event.preventDefault(); name.setCustomValidity(name.value.trim() ? '' : 'Enter a car name.');
             if (!form.reportValidity()) return;
             var record = {id: editing || crypto.randomUUID(), name: name.value.trim(), category: category.value, price: Number(price.value)};
-            if (editing) records = records.map(function (r) { return r.id === editing ? record : r; });
-            else records.push(record);
+            if (editing) {
+                for (var i = 0; i < records.length; i++) {
+                    if (records[i].id === editing) {
+                        records[i] = record;
+                        break;
+                    }
+                }
+            } else {
+                records.push(record);
+            }
             save(editing ? 'Car updated.' : 'Car added.'); reset();
         });
         cancel.addEventListener('click', reset); render();
     }
 
+    // Photo gallery
     function initGallery() {
         if (!document.getElementById('home-title') || !window.jQuery) return;
         var $ = window.jQuery;
@@ -374,7 +418,13 @@
         document.body.appendChild(dialog);
         var position = 0; var opener;
         function show(index) {
-            position = (index + images.length) % images.length;
+            position = index;
+            if (position < 0) {
+                position = images.length - 1;
+            }
+            if (position >= images.length) {
+                position = 0;
+            }
             var image = dialog.querySelector('img');
             $(image).stop(true, true).fadeOut(120, function () { image.src = images[position].src; image.alt = images[position].alt; $(image).fadeIn(180); });
             dialog.querySelector('figcaption').textContent = (position + 1) + ' / ' + images.length + ' — ' + images[position].alt;
@@ -392,6 +442,7 @@
         dialog.addEventListener('keydown', function (event) { if (event.key === 'ArrowLeft') show(position - 1); if (event.key === 'ArrowRight') show(position + 1); });
     }
 
+    // Contact form
     function initContact() {
         var form = document.getElementById('contact-form');
         if (!form) return;
@@ -405,20 +456,31 @@
         function validate(input) {
             input.setCustomValidity('');
             if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.value.trim())) input.setCustomValidity('Enter a valid email address.');
-            if ((input.tagName === 'TEXTAREA' || input.type === 'text') && input.value.trim().length < (input.minLength > 0 ? input.minLength : 1)) 
+            var isTextField = input.tagName === 'TEXTAREA' || input.type === 'text';
+            var minimumLength = Math.max(input.minLength, 1);
+            if (isTextField && input.value.trim().length < minimumLength) {
                 input.setCustomValidity('Please complete this field with the required number of characters.');
+            }
             return setFieldError(input, input.validationMessage);
         }
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            var results = inputs.map(validate);
-            if (results.includes(false)) { inputs[results.indexOf(false)].focus(); return; }
+            var firstInvalidInput = null;
+            for (var input of inputs) {
+                var valid = validate(input);
+                if (!valid && firstInvalidInput === null) {
+                    firstInvalidInput = input;
+                }
+            }
+            if (firstInvalidInput) {
+                firstInvalidInput.focus();
+                return;
+            }
             status.textContent = 'Your demo enquiry is valid. No message has been sent.';
             form.reset();
         });
     }
 
-/* start */
     document.addEventListener('DOMContentLoaded', function () {
         initSearch();
         initInventory();

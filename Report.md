@@ -106,4 +106,4 @@ AI tools supported our development by helping us identify code issues and improv
 
 ## 8. Conclusion
 
-This project helped us practise building a responsive website and adding interactive features with JavaScript, jQuery, and an API. [Add one improvement you would make in the future.]
+This project helped us practise building a responsive website and adding interactive features with JavaScript, jQuery, and an API.

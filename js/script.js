@@ -4,7 +4,6 @@
     var THEME_KEY = 'autohubTheme';
     var USER_KEY = 'autohubUser';
 
-    /* ---------- safe localStorage helpers ---------- */
     function read(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
     function write(key, value) { try { localStorage.setItem(key, value); } catch (e) { /* storage blocked */ } }
     function remove(key) { try { localStorage.removeItem(key); } catch (e) { /* storage blocked */ } }
@@ -12,7 +11,6 @@
         try { return JSON.parse(read(USER_KEY)); } catch (e) { return null; }
     }
 
-    /* ---------- 1. Theme ---------- */
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-bs-theme', theme);
         var btn = document.getElementById('theme-toggle');
@@ -33,7 +31,6 @@
         });
     }
 
-    /* ---------- 2. Sign-in ---------- */
     function renderAuthArea() {
         var area = document.getElementById('auth-area');
         if (!area) { return; }
@@ -59,7 +56,6 @@
         }
     }
 
-    // Everything on the page that depends on the signed-in state.
     function renderUserUI() {
         var user = getUser();
         var signedIn = !!(user && user.name);
@@ -119,15 +115,29 @@
             return setFieldError(emailInput, '');
         }
 
-        nameInput.addEventListener('blur', validName);
-        emailInput.addEventListener('blur', validEmail);
+        nameInput.addEventListener('input', validName);
+        emailInput.addEventListener('input', validEmail);
 
+        var password = document.getElementById('si-password');
+        var confirm = document.getElementById('si-confirm');
+        function validPassword() {
+            var value = password.value;
+            var score = !value ? 0 : value.length < 8 ? 1 : /[a-z]/.test(value) && /[A-Z]/.test(value) && /[0-9]/.test(value) ? 3 : 2;
+            document.getElementById('password-meter').value = score;
+            document.getElementById('password-strength').textContent = ['Enter a password', 'Weak', 'Medium', 'Strong'][score];
+            return setFieldError(password, score < 3 ? 'Use 8+ characters with uppercase, lowercase and a number.' : '');
+        }
+        function validConfirm() { return setFieldError(confirm, !confirm.value || confirm.value !== password.value ? 'Passwords must match.' : ''); }
+        password.addEventListener('input', function () { validPassword(); if (confirm.value) validConfirm(); });
+        confirm.addEventListener('input', validConfirm);
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             var okName = validName();
             var okEmail = validEmail();
+            var okPassword = validPassword();
+            var okConfirm = validConfirm();
+            if (!okPassword || !okConfirm) { (okPassword ? confirm : password).focus(); return; }
             if (!okName || !okEmail) { (okName ? emailInput : nameInput).focus(); return; }
-            // Only non-sensitive data is stored. No password.
             write(USER_KEY, JSON.stringify({
                 name: nameInput.value.trim(),
                 email: emailInput.value.trim(),
@@ -141,7 +151,6 @@
         if (outBtn) { outBtn.addEventListener('click', signOut); }
     }
 
-    /* ---------- 3. FAQ (jQuery) ---------- */
     function initFaq() {
         if (!window.jQuery) { return; }
         var $ = window.jQuery;
@@ -154,7 +163,6 @@
         });
     }
 
-    /* ---------- 4. API: NHTSA vPIC (brands and models) ---------- */
     function initCarApi() {
         var root = document.getElementById('car-api');
         if (!root) { return; }
@@ -233,12 +241,12 @@
 
         async function loadModels() {
             if (!selectedMake) { return; }
+            var id = ++requestId;
             var year = yearInput.value.trim();
             if (year && (!/^\d{4}$/.test(year) || +year < 1980 || +year > maxYear)) {
                 setStatus('Enter a model year between 1980 and ' + maxYear + ', or leave it empty.', 'error');
                 return;
             }
-            var id = ++requestId;
             var url = year
                 ? BASE + 'GetModelsForMakeYear/make/' + encodeURIComponent(selectedMake) + '/modelyear/' + year + '?format=json'
                 : BASE + 'GetModelsForMake/' + encodeURIComponent(selectedMake) + '?format=json';
@@ -272,8 +280,150 @@
         loadMakes();
     }
 
-    /* ---------- start ---------- */
+    function initSearch() {
+        var input = document.getElementById('car-search');
+        if (!input) return;
+        var category = 'All';
+        function filter() {
+            var count = 0;
+            document.querySelectorAll('#car-listings > div').forEach(function (item) {
+                var matches = item.textContent.toLowerCase().includes(input.value.trim().toLowerCase()) && (category === 'All' || item.querySelector('.car-label').textContent === category);
+                item.hidden = !matches;
+                if (matches) count++;
+            });
+            document.getElementById('car-count').textContent = count ? count + ' cars found' : 'No matching cars. Try another search or category.';
+        }
+        input.addEventListener('input', filter);
+        document.querySelectorAll('[data-category]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                category = button.dataset.category;
+                document.querySelectorAll('[data-category]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === button)); });
+                filter();
+            });
+        });
+        filter();
+    }
+
+    function initInventory() {
+        var form = document.getElementById('inventory-form');
+        if (!form) return;
+        var key = 'autohubInventory';
+        var records;
+        try { records = JSON.parse(read(key)); } catch (e) { records = null; }
+        if (!Array.isArray(records)) records = [{id: 'sample', name: 'City Sedan', category: 'Sedan', price: 12500000}];
+        records = records.filter(function (r) { return r && typeof r.id === 'string' && typeof r.name === 'string' && ['Sedan','SUV','Hatchback'].includes(r.category) && Number.isFinite(r.price) && r.price > 0; });
+        var editing = null;
+        var name = document.getElementById('inventory-name');
+        var category = document.getElementById('inventory-category');
+        var price = document.getElementById('inventory-price');
+        var cancel = document.getElementById('inventory-cancel');
+        var status = document.getElementById('inventory-status');
+        function reset() { editing = null; form.reset(); cancel.hidden = true; document.getElementById('inventory-save').textContent = 'Add car'; }
+        function save(message) {
+            write(key, JSON.stringify(records));
+            status.textContent = message + (read(key) === JSON.stringify(records) ? '' : ' Browser storage is unavailable; changes last only on this page.');
+            render();
+        }
+        function render() {
+            var body = document.getElementById('inventory-body');
+            body.textContent = '';
+            records.forEach(function (record) {
+                var row = document.createElement('tr');
+                [record.name, record.category, record.price.toLocaleString('en-US')].forEach(function (value) { var cell = document.createElement('td'); cell.textContent = value; row.appendChild(cell); });
+                var actions = document.createElement('td');
+                ['Edit', 'Delete'].forEach(function (action) {
+                    var button = document.createElement('button');
+                    button.type = 'button'; button.className = 'btn btn-outline-primary btn-sm me-2'; button.textContent = action;
+                    button.setAttribute('aria-label', action + ' ' + record.name);
+                    button.addEventListener('click', function () {
+                        if (action === 'Edit') {
+                            editing = record.id; name.value = record.name; category.value = record.category; price.value = record.price; cancel.hidden = false; document.getElementById('inventory-save').textContent = 'Save changes'; name.focus();
+                        } else if (window.confirm('Delete ' + record.name + '?')) {
+                            records = records.filter(function (r) { return r.id !== record.id; });
+                            if (editing === record.id) reset();
+                            save('Car deleted.');
+                        }
+                    });
+                    actions.appendChild(button);
+                });
+                row.appendChild(actions); body.appendChild(row);
+            });
+            if (!records.length) { var row = body.insertRow(); var cell = row.insertCell(); cell.colSpan = 4; cell.textContent = 'No cars yet. Add your first car above.'; }
+        }
+        name.addEventListener('input', function () { name.setCustomValidity(''); });
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); name.setCustomValidity(name.value.trim() ? '' : 'Enter a car name.');
+            if (!form.reportValidity()) return;
+            var record = {id: editing || crypto.randomUUID(), name: name.value.trim(), category: category.value, price: Number(price.value)};
+            if (editing) records = records.map(function (r) { return r.id === editing ? record : r; });
+            else records.push(record);
+            save(editing ? 'Car updated.' : 'Car added.'); reset();
+        });
+        cancel.addEventListener('click', reset); render();
+    }
+
+    function initGallery() {
+        if (!document.getElementById('home-title') || !window.jQuery) return;
+        var $ = window.jQuery;
+        var images = Array.from(document.querySelectorAll('main .car-image'));
+        if (!images.length) return;
+        var dialog = document.createElement('dialog');
+        dialog.className = 'gallery-dialog';
+        dialog.setAttribute('aria-label', 'Car photo gallery');
+        dialog.innerHTML = '<button type="button" class="btn btn-primary" data-close>Close</button><figure><img alt=""><figcaption aria-live="polite"></figcaption></figure><button type="button" class="btn btn-outline-primary" data-prev>← Previous</button> <button type="button" class="btn btn-outline-primary" data-next>Next →</button>';
+        document.body.appendChild(dialog);
+        var position = 0; var opener;
+        function show(index) {
+            position = (index + images.length) % images.length;
+            var image = dialog.querySelector('img');
+            $(image).stop(true, true).fadeOut(120, function () { image.src = images[position].src; image.alt = images[position].alt; $(image).fadeIn(180); });
+            dialog.querySelector('figcaption').textContent = (position + 1) + ' / ' + images.length + ' — ' + images[position].alt;
+        }
+        images.forEach(function (image, index) {
+            var button = document.createElement('button'); button.type = 'button'; button.className = 'gallery-trigger'; button.setAttribute('aria-label', 'Enlarge: ' + image.alt);
+            image.parentNode.insertBefore(button, image); button.appendChild(image);
+            button.addEventListener('click', function () { opener = button; dialog.showModal(); show(index); });
+        });
+        function close() { $(dialog).stop(true, true).fadeOut(160, function () { dialog.close(); dialog.style.display = ''; if (opener) opener.focus(); }); }
+        dialog.querySelector('[data-close]').addEventListener('click', close);
+        dialog.querySelector('[data-prev]').addEventListener('click', function () { show(position - 1); });
+        dialog.querySelector('[data-next]').addEventListener('click', function () { show(position + 1); });
+        dialog.addEventListener('cancel', function (event) { event.preventDefault(); close(); });
+        dialog.addEventListener('keydown', function (event) { if (event.key === 'ArrowLeft') show(position - 1); if (event.key === 'ArrowRight') show(position + 1); });
+    }
+
+    function initContact() {
+        var form = document.getElementById('contact-form');
+        if (!form) return;
+        form.noValidate = true;
+        var status = document.createElement('p'); status.setAttribute('role', 'status'); form.appendChild(status);
+        var inputs = Array.from(form.querySelectorAll('input, select, textarea'));
+        inputs.forEach(function (input) {
+            var error = document.createElement('div'); error.id = input.id + '-error'; error.className = 'invalid-feedback'; input.after(error); input.setAttribute('aria-describedby', error.id);
+            input.addEventListener('input', function () { validate(input); status.textContent = ''; });
+        });
+        function validate(input) {
+            input.setCustomValidity('');
+            if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.value.trim())) input.setCustomValidity('Enter a valid email address.');
+            if ((input.tagName === 'TEXTAREA' || input.type === 'text') && input.value.trim().length < (input.minLength > 0 ? input.minLength : 1)) 
+                input.setCustomValidity('Please complete this field with the required number of characters.');
+            return setFieldError(input, input.validationMessage);
+        }
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            var results = inputs.map(validate);
+            if (results.includes(false)) { inputs[results.indexOf(false)].focus(); return; }
+            status.textContent = 'Your demo enquiry is valid. No message has been sent.';
+            form.reset();
+        });
+    }
+
+/* start */
     document.addEventListener('DOMContentLoaded', function () {
+        initSearch();
+        initInventory();
+        initGallery();
+        initContact();
         initTheme();
         initSignIn();
         renderUserUI();

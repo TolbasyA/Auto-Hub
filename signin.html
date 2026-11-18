@@ -46,7 +46,7 @@
         <section class="mb-4" aria-labelledby="signin-title">
             <h1 id="signin-title">Sign in to AutoHub</h1>
             <p>
-                Demo sign-in without a password. Your name and email are saved only
+                Demo registration and sign-in. Passwords are validated but never saved or sent. Your name and email are saved only
                 in this browser (localStorage) so the site can greet you.
             </p>
         </section>
@@ -66,7 +66,19 @@
                             <input type="email" id="si-email" class="form-control" autocomplete="email" maxlength="120" required>
                             <div id="si-email-error" class="invalid-feedback" role="alert"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
+                        <div class="mb-3">
+                            <label for="si-password" class="form-label">Password *</label>
+                            <input id="si-password" type="password" class="form-control" autocomplete="new-password" required aria-describedby="password-strength si-password-error">
+                            <meter id="password-meter" min="0" max="3" value="0"></meter>
+                            <p id="password-strength" role="status">Use at least 8 characters, uppercase, lowercase and a number.</p>
+                            <div id="si-password-error" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                           <label for="si-confirm" class="form-label">Confirm password *</label>
+                           <input id="si-confirm" type="password" class="form-control" autocomplete="new-password" required>
+                           <div id="si-confirm-error" class="invalid-feedback"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register / Sign in to demo</button>
                     </form>
                 </div>
 
@@ -88,7 +100,7 @@
                 </p>
                 <a href="mailto:hello@autohub.example">hello@autohub.example</a>
                 <p class="small mt-2 mb-0">
-                    Student project · sample cars and prices<br>
+                    Student project · sample cars and prices<br>AI assistance: OpenAI Codex helped implement and review JavaScript features.
                 </p>
             </div>
 
@@ -107,7 +119,7 @@
             </div>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/vendor/jquery-3.7.1.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

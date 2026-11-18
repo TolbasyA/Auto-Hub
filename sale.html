@@ -48,7 +48,15 @@
                 and prices are illustrative; photos show body types.
             </p>
 
-            <div class="row g-3">
+            <label for="car-search" class="form-label">Search sample cars</label>
+            <input id="car-search" type="search" class="form-control mb-3" placeholder="Name, transmission or body type">
+            <div id="car-filters" class="chip-list mb-3" aria-label="Body type filters">
+                <button type="button" class="chip" data-category="All" aria-pressed="true">All</button>
+                <button type="button" class="chip" data-category="Sedan" aria-pressed="false">Sedan</button>
+                <button type="button" class="chip" data-category="SUV" aria-pressed="false">SUV</button>
+                <button type="button" class="chip" data-category="Hatchback" aria-pressed="false">Hatchback</button>
+            </div><p id="car-count" role="status"></p><div class="row g-3" id="car-listings">
+                
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="card h-100 car-card">
                         <div class="car-image-wrap">
@@ -165,7 +173,47 @@
             </div>
         </section>
 
-        <section class="mb-4" id="car-api" aria-labelledby="api-title">
+<section class="simple-box mb-4" aria-labelledby="inventory-title">
+    <h2 id="inventory-title">Manage sample inventory</h2>
+    <p>Practice adding and editing cars. Records are saved only in this browser.</p>
+    <form id="inventory-form" class="row g-3">
+        <div class="col-md-4">
+            <label for="inventory-name" class="form-label">Car name</label>
+            <input id="inventory-name" class="form-control" required maxlength="80">
+        </div>
+        <div class="col-md-3">
+            <label for="inventory-category" class="form-label">Body type</label>
+            <select id="inventory-category" class="form-select">
+                <option>Sedan</option><option>SUV</option>
+                <option>Hatchback</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="inventory-price" class="form-label">Price (₸)</label>
+            <input id="inventory-price" type="number" min="1" max="1000000000" step="1" required class="form-control">
+        </div>
+        <div class="col-12">
+            <button id="inventory-save" class="btn btn-primary">Add car</button> 
+            <button id="inventory-cancel" type="button" class="btn btn-outline-primary" hidden>Cancel edit</button>
+        </div>
+    </form>
+    <p id="inventory-status" role="status"></p>
+    <div class="table-responsive">
+        <table class="table">
+            <caption>Sample inventory</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Car</th>
+                    <th scope="col">Body type</th>
+                    <th scope="col">Price (₸)</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="inventory-body"></tbody>
+        </table>
+    </div>
+</section>
+<section class="mb-4" id="car-api" aria-labelledby="api-title">
             <h2 id="api-title">Explore real car brands and models</h2>
             <p>
                 Live data from the free NHTSA vPIC API. Search for a brand, select it
@@ -215,7 +263,7 @@
                 </p>
                 <a href="mailto:hello@autohub.example">hello@autohub.example</a>
                 <p class="small mt-2 mb-0">
-                    Student project · sample cars and prices<br>
+                    Student project · sample cars and prices<br>AI assistance: OpenAI Codex helped implement and review JavaScript features.
                 </p>
             </div>
 
@@ -234,7 +282,7 @@
             </div>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/vendor/jquery-3.7.1.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

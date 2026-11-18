@@ -302,8 +302,6 @@ textarea:focus {
         grid-template-columns: repeat(3, 1fr);
     }
 }
-
-/* ===== Final project additions ===== */
 .header-actions,
 #auth-area {
     display: flex;
@@ -383,7 +381,6 @@ textarea:focus {
 .api-status.error { color: #b42318; }
 .api-status.ok { color: #1a7f37; }
 
-/* ===== Dark theme (Bootstrap 5.3 data-bs-theme + our variables) ===== */
 [data-bs-theme="dark"] {
     --text-color: #e6e9ee;
     --muted-color: #a9b4c2;
@@ -427,3 +424,44 @@ textarea:focus {
 
 [data-bs-theme="dark"] .api-status.error { color: #ff8a80; }
 [data-bs-theme="dark"] .api-status.ok { color: #6fcf97; }
+
+[hidden] { display: none !important; }
+.chip[aria-pressed="true"] { 
+    background: var(--bs-primary); 
+    color: white;
+}
+.gallery-trigger { 
+    border: 0; 
+    padding: 0; 
+    width: 100%; 
+    background: transparent; 
+    cursor: zoom-in; 
+}
+.gallery-trigger:focus-visible { 
+    outline: 3px solid var(--bs-primary); 
+    outline-offset: 3px; 
+}
+.gallery-dialog { 
+    width: min(900px, 94vw);
+     max-height: 92vh; 
+     overflow: auto;
+      padding: 1rem;
+       border: 1px solid var(--bs-border-color); 
+       border-radius: 12px; 
+       background: var(--bs-body-bg); color:
+        var(--bs-body-color); 
+    }
+.gallery-dialog::backdrop { 
+    background: rgb(0 0 0 / 80%); 
+}
+.gallery-dialog img { 
+    display: block; 
+    max-width: 100%; 
+    max-height: 65vh; 
+    margin: 1rem auto; 
+    object-fit: contain; 
+}
+#password-meter { 
+    width: 100%; 
+    margin-top: .75rem; 
+}

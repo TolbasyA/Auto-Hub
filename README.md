@@ -97,10 +97,6 @@ responsive media queries, and README documentation.
 - `css/style.css` — page styles
 - `js/script.js` — JavaScript and jQuery features
 
-## Published website
-
-https://achaka119.github.io/Auto-Hub/ (deployment must be verified)
-
 # Final project part
 
 ## New features
@@ -119,7 +115,7 @@ https://achaka119.github.io/Auto-Hub/ (deployment must be verified)
 
 ## Links
 
-- Website (expected after GitHub Pages setup): https://achaka119.github.io/Auto-Hub/
+- Website: https://achaka119.github.io/Auto-Hub/
 - Repository: https://github.com/achaka119/Auto-Hub
 
 ## Endterm implementation checklist

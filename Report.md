@@ -108,3 +108,4 @@ AI tools supported our development by helping us identify code issues and improv
 ## 8. Conclusion
 
 This project helped us practise building a responsive website and adding interactive features with JavaScript, jQuery, and an API.
+In the future, we would like to add a database and real car listings so users can find up-to-date sale and rental offers.

@@ -118,14 +118,6 @@ responsive media queries, and README documentation.
 - Website: https://achaka119.github.io/Auto-Hub/
 - Repository: https://github.com/achaka119/Auto-Hub
 
-## Endterm implementation checklist
-
-- Registration: `signin.html`, live name/email validation, weak/medium/strong meter, matching password confirmation, invalid-submit prevention.
-- Search: `sale.html`, case-insensitive search combined with All/Sedan/SUV/Hatchback buttons and empty state.
-- CRUD: `sale.html`, validated create form, rendered table, edit/cancel, confirmed deletion, local persistence.
-- Gallery: Home car images, native modal dialog, Previous/Next, arrow keys, Escape, focus return, jQuery fadeIn/fadeOut.
-- Contact: required fields, regex email check, real-time messages; no message is transmitted.
-
 ## Run and publish
 
 Run `python3 -m http.server 8000` in this folder and open http://localhost:8000.

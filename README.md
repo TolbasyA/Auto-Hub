@@ -22,3 +22,9 @@ basic information about cars.
 - Responsive layouts using media queries and Bootstrap grid.
 - Bootstrap spacing, text alignment, buttons, and containers.
 - Custom font and lazy-loaded car images.
+
+## Project structure
+
+- `index.html`, `showrooms.html`, `rent.html`, `sale.html`, `wiki.html`, `contact.html`, `signin.html`
+- `css/style.css` — styles, including the dark theme
+- `js/script.js` — theme, sign-in, FAQ (jQuery), and API code

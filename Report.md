@@ -25,8 +25,6 @@ The group developed the website in three stages: page layout, interactive featur
 - **Tolbasy Aliakbar:** Rent and Sale pages;
 - **Yeskermes Alisher:** Car Wiki, Contact page, responsive styles, and README;
 
-The group tested [add browsers, screen sizes, and features tested]. One problem we solved was [add a real example].
-
 ## 5. Screenshots
 
 [Add current screenshots of the website, theme, FAQ, sign-in, and API results.]

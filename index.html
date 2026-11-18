@@ -8,6 +8,7 @@
    <link rel="icon" href="assets/images/logo.png" type="image/png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+<script>try{document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('autohubTheme')==='dark'?'dark':'light')}catch(e){}</script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -31,6 +32,11 @@
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
+
+            <div class="header-actions">
+                <button type="button" id="theme-toggle" class="btn btn-outline-primary btn-sm" aria-pressed="false">Dark mode</button>
+                <div id="auth-area"></div>
+            </div>
         </div>
     </header>
 
@@ -180,7 +186,7 @@
                 </p>
                 <a href="mailto:hello@autohub.example">hello@autohub.example</a>
                 <p class="small mt-2 mb-0">
-                    Student project · sample cars and prices
+                    Student project · sample cars and prices<br>
                 </p>
             </div>
 
@@ -199,5 +205,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

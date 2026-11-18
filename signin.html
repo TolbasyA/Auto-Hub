@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to AutoHub with a demo account.">
+    <title>Sign in | AutoHub</title>
+   <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+<script>try{document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('autohubTheme')==='dark'?'dark':'light')}catch(e){}</script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="AutoHub home">
+                <img src="assets/images/logo.png" alt="AutoHub logo" width="32" height="32">
+                <span>AutoHub</span>
+            </a>
+
+            <nav aria-label="Main navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="showrooms.html">Showrooms</a></li>
+                    <li><a href="rent.html">Rent</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="wiki.html">Car Wiki</a></li>
+                    <li>
+                        <a href="contact.html">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" id="theme-toggle" class="btn btn-outline-primary btn-sm" aria-pressed="false">Dark mode</button>
+                <div id="auth-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container py-4" tabindex="-1">
+        <section class="mb-4" aria-labelledby="signin-title">
+            <h1 id="signin-title">Sign in to AutoHub</h1>
+            <p>
+                Demo sign-in without a password. Your name and email are saved only
+                in this browser (localStorage) so the site can greet you.
+            </p>
+        </section>
+
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="simple-box" id="signin-panel">
+                    <h2 class="h4">Your details</h2>
+                    <form id="signin-form" novalidate>
+                        <div class="mb-3">
+                            <label for="si-name" class="form-label">Full name *</label>
+                            <input type="text" id="si-name" class="form-control" autocomplete="name" maxlength="40" required>
+                            <div id="si-name-error" class="invalid-feedback" role="alert"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="si-email" class="form-label">Email *</label>
+                            <input type="email" id="si-email" class="form-control" autocomplete="email" maxlength="120" required>
+                            <div id="si-email-error" class="invalid-feedback" role="alert"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </form>
+                </div>
+
+                <div class="simple-box" id="signed-panel" hidden>
+                    <h2 class="h4">You are signed in</h2>
+                    <p id="signed-info"></p>
+                    <a href="sale.html" class="btn btn-primary">Browse cars</a>
+                    <button type="button" id="signed-out-btn" class="btn btn-outline-primary ms-2">Sign out</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer mt-4">
+        <div class="container footer-inner py-3 text-start">
+            <div>
+                <p class="mb-1">
+                    <strong>AutoHub</strong> · Astana, Kazakhstan
+                </p>
+                <a href="mailto:hello@autohub.example">hello@autohub.example</a>
+                <p class="small mt-2 mb-0">
+                    Student project · sample cars and prices<br>
+                </p>
+            </div>
+
+            <div>
+                <nav class="social-links" aria-label="Social links">
+                    <a href="https://www.instagram.com/"
+                       target="_blank"
+                       rel="noopener noreferrer">Instagram</a>
+                    <a href="https://www.youtube.com/"
+                       target="_blank"
+                       rel="noopener noreferrer">YouTube</a>
+                </nav>
+                <p class="small mt-2 mb-0">
+                    &copy; 2026 AutoHub. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

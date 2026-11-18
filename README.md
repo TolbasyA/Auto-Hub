@@ -98,3 +98,27 @@ responsive media queries, and README documentation.
 ## Published website
 
 https://tolbasya.github.io/Auto-Hub/
+
+# Final project part
+
+## New features
+
+- **Light/Dark theme:** the button in the header switches themes on every page. The choice is saved in `localStorage` and stays after refresh.
+- **Sign-in:** `signin.html` has a validated form (name and email, no password). The user is stored in `localStorage`, stays signed in after refresh, sees "Hi, name" and a Sign out button in the header, a personal greeting on the Home page, and a pre-filled Contact form. Sign out clears the saved state.
+- **FAQ (jQuery):** six car questions on the Car Wiki page. `.slideToggle()` opens and closes answers, and a + / − indicator shows the state.
+- **API (fetch):** the Sale page loads real car brands and models from the free [NHTSA vPIC API](https://vpic.nhtsa.dot.gov/api/). Users search brands, select one, filter models by year, and refresh the data. Errors and empty results show clear messages.
+
+## Project structure
+
+- `index.html`, `showrooms.html`, `rent.html`, `sale.html`, `wiki.html`, `contact.html`, `signin.html`
+- `css/style.css` — styles, including the dark theme
+- `js/script.js` — theme, sign-in, FAQ (jQuery), and API code
+
+## AI usage
+
+Built mostly by our team (~75%). Claude was used as a supporting tool for minor JS/CSS fixes and README formatting.
+
+## Links
+
+- Website: 
+- Repository: 

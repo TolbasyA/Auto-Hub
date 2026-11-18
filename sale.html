@@ -8,6 +8,7 @@
    <link rel="icon" href="assets/images/logo.png" type="image/png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+<script>try{document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('autohubTheme')==='dark'?'dark':'light')}catch(e){}</script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -31,6 +32,11 @@
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
+
+            <div class="header-actions">
+                <button type="button" id="theme-toggle" class="btn btn-outline-primary btn-sm" aria-pressed="false">Dark mode</button>
+                <div id="auth-area"></div>
+            </div>
         </div>
     </header>
 
@@ -159,6 +165,34 @@
             </div>
         </section>
 
+        <section class="mb-4" id="car-api" aria-labelledby="api-title">
+            <h2 id="api-title">Explore real car brands and models</h2>
+            <p>
+                Live data from the free NHTSA vPIC API. Search for a brand, select it
+                to load its models, and optionally enter a model year.
+            </p>
+            <div class="simple-box">
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-5">
+                        <label for="brand-search" class="form-label">Search brand</label>
+                        <input type="search" id="brand-search" class="form-control" placeholder="For example, Toyota" autocomplete="off">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label for="model-year" class="form-label">Model year (optional)</label>
+                        <input type="number" id="model-year" class="form-control" min="1980" max="2027" placeholder="2020">
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <button type="button" id="api-refresh" class="btn btn-outline-primary">Refresh data</button>
+                    </div>
+                </div>
+                <p id="api-status" class="api-status" role="status" aria-live="polite"></p>
+                <h3 class="h6">Brands</h3>
+                <div id="brand-list" class="chip-list"></div>
+                <h3 class="h6 mt-3" id="model-title">Models</h3>
+                <ul id="model-list" class="model-list"></ul>
+            </div>
+        </section>
+
         <section class="simple-box" aria-labelledby="buying-title">
             <h2 id="buying-title">Buying checklist</h2>
             <ol>
@@ -181,7 +215,7 @@
                 </p>
                 <a href="mailto:hello@autohub.example">hello@autohub.example</a>
                 <p class="small mt-2 mb-0">
-                    Student project · sample cars and prices
+                    Student project · sample cars and prices<br>
                 </p>
             </div>
 
@@ -200,5 +234,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

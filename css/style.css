@@ -302,3 +302,128 @@ textarea:focus {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* ===== Final project additions ===== */
+.header-actions,
+#auth-area {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.auth-hello {
+    font-weight: 600;
+}
+
+.faq-item {
+    margin-bottom: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 0;
+    background-color: var(--light-color);
+    color: var(--text-color);
+    font-weight: 600;
+    text-align: left;
+}
+
+.faq-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.faq-answer {
+    display: none;
+    padding: 0.2rem 1rem 1rem;
+}
+
+.chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background-color: var(--light-color);
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.chip:hover,
+.chip.selected {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.model-list {
+    columns: 2 12rem;
+    padding-left: 1.2rem;
+    margin-bottom: 0;
+}
+
+.api-status {
+    margin: 0.8rem 0;
+    min-height: 1.5rem;
+}
+
+.api-status.error { color: #b42318; }
+.api-status.ok { color: #1a7f37; }
+
+/* ===== Dark theme (Bootstrap 5.3 data-bs-theme + our variables) ===== */
+[data-bs-theme="dark"] {
+    --text-color: #e6e9ee;
+    --muted-color: #a9b4c2;
+    --light-color: #1d232c;
+    --border-color: #323b48;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #14181f;
+}
+
+[data-bs-theme="dark"] .nav-list a {
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark"] .nav-list a:hover,
+[data-bs-theme="dark"] .nav-list a:focus {
+    background-color: #2a3442;
+}
+
+[data-bs-theme="dark"] .nav-list a.active {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] main a:not(.btn),
+[data-bs-theme="dark"] .site-footer a {
+    color: #8ab4f8;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    --bs-btn-color: #8ab4f8;
+    --bs-btn-border-color: #8ab4f8;
+    --bs-btn-hover-color: #fff;
+}
+
+[data-bs-theme="dark"] .car-label,
+[data-bs-theme="dark"] .skip-link {
+    background-color: var(--light-color);
+    color: var(--text-color);
+}
+
+[data-bs-theme="dark"] .api-status.error { color: #ff8a80; }
+[data-bs-theme="dark"] .api-status.ok { color: #6fcf97; }
